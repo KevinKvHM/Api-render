@@ -119,10 +119,12 @@ async addRegionSare(req, res){
            
         }
         );
+        const regiones = req.body;
         
+    const reg = await JSON.parse(regiones);
         const [results, metadata] = await sequelize.query('delete from regionsares where "sareId" ='+id);
         
-        const addR = await sares.addRegion([1,2,3], { through: { selfGranted: false }});
+        const addR = await sares.addRegion(reg, { through: { selfGranted: false }});
         
         const n = await db.sare.findOne({
             where: {

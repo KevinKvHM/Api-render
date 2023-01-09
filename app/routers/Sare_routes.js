@@ -9,7 +9,7 @@ const sareController = require('../controllers/sare_controller.js');
 const validate = require('../middleware/validateUser');
 
 
-router.get('/api/v1/addRegion/:id',sareController.addRegionSare);
+router.post('/api/v1/addRegion/:id',sareController.addRegionSare);
 
 router.get('/api/v1/getRegionSare/:id',sareController.getRegionSareId);
 router.post('/api/v1/sare',sareController.createSare);
