@@ -107,7 +107,7 @@ async getRegionSareId(req, res){
 //Actualizar regiones atendidas
 async addRegionSare(req, res){
     const {id} = req.params;
-    //const region = req.body;
+    const {region} = req.body;
     try {
         const sares = await db.sare.findOne({
             where: {
@@ -119,21 +119,35 @@ async addRegionSare(req, res){
            
         }
         );
-        const regiones = req.body;
         
-    const reg = await JSON.parse(regiones);
-        const [results, metadata] = await sequelize.query('delete from regionsares where "sareId" ='+id);
+        ///////
+        //funcona
+     const [results, metadata] = await db.sequelize.query('delete from regiones_sares where "sareId"='+id);
+
+        /////////
+        //const reg = await JSON.parse(region); 
         
-        const addR = await sares.addRegion(reg, { through: { selfGranted: false }});
         
-        const n = await db.sare.findOne({
+    console.log("=========================="+typeof(region));
+    
+    const reg = await JSON.parse(region);
+    
+    console.log("=========================="+typeof(reg));
+    const addR = await sares.addRegion(reg, { through: { selfGranted: false }});
+        
+        /*const [results, metadata] = await sequelize.query('delete from regionsares where "sareId" ='+id);
+        
+        const addR = await sares.addRegion([1,2,3], { through: { selfGranted: false }});
+        
+        */
+       const sareActualizada = await db.sare.findOne({
             where: {
                 id: id
             },
            //include: [{all:true}]
            include: ['regions']
         });
-            return res.status(200).json({regiones : n});
+            return res.status(200).json({regiones : sareActualizada });
         
         
      } catch (error) {
