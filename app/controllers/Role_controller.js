@@ -15,7 +15,7 @@ async allRolesUser(req,res){
 async allRoles(req,res){
     
     let roles = await db.role.findAll()
-    res.json(roles)
+    res.json({roles: roles})
     
 },
 
