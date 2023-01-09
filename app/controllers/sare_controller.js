@@ -120,26 +120,11 @@ async addRegionSare(req, res){
         }
         );
         
-        ///////
-        //funcona
-     const [results, metadata] = await db.sequelize.query('delete from regiones_sares where "sareId"='+id);
-
-        /////////
-        //const reg = await JSON.parse(region); 
-        
-        
-    console.log("=========================="+typeof(region));
+    const [results, metadata] = await db.sequelize.query('delete from regiones_sares where "sareId"='+id);
     
     const reg = await JSON.parse(region);
-    
-    console.log("=========================="+typeof(reg));
     const addR = await sares.addRegion(reg, { through: { selfGranted: false }});
-        
-        /*const [results, metadata] = await sequelize.query('delete from regionsares where "sareId" ='+id);
-        
-        const addR = await sares.addRegion([1,2,3], { through: { selfGranted: false }});
-        
-        */
+ 
        const sareActualizada = await db.sare.findOne({
             where: {
                 id: id
@@ -160,19 +145,24 @@ async addRegionSare(req, res){
 async updateSare (req, res){
     
     const {id} = req.params;
-    
-
+    //const {idSare,nameSare,nameJefeSare,telefono,email,longitud,latitud,localidadId} = req.body;
+    const objsere = {...req.body};
+    delete objsere.region;
     try {
         
         const sare = await db.sare.findByPk(id);
 
         if(!sare){
-        return res.status(404).json( "La Region No Existe");
+        return res.status(404).json( "La Sare No Existe");
       } else 
 
-        sare.set(req.body);
+        sare.set(objsere);
         await sare.save();
-
+        const [results, metadata] = await db.sequelize.query('delete from regiones_sares where "sareId"='+id);
+        const reg = await JSON.parse(req.body.region);
+        const addR = await sare.addRegion(reg, { through: { selfGranted: false }});
+ 
+        console.log("Eliminar.................."+req.body.region+"=================="+objsere.region);
         return res.status(200).json(sare);
 
     } catch (error) {

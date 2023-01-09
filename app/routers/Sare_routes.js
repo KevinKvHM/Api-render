@@ -15,7 +15,7 @@ router.get('/api/v1/getRegionSare/:id',sareController.getRegionSareId);
 router.post('/api/v1/sare',sareController.createSare);
 router.get('/api/v1/sares',sareController.allSare);
 router.get('/api/v1/sare/:id',auth.validateToken,sareController.allSareId);
-router.put('/api/v1/sare/:id',auth.validateToken,validate.isAdmin,regionValidator.bodyRegionValidator, sareController.updateSare);
+router.put('/api/v1/sare/:id',auth.validateToken,validate.isAdmin,regionValidator.bodySareValidator, sareController.updateSare);
 router.delete('/api/v1/sare/:id',auth.validateToken,validate.isAdmin,sareController.deleteSare);
 
 
